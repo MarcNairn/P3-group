@@ -14,7 +14,7 @@ int main()
    
    ofstream myfile;
    myfile.open ("laplace.dat");
-   for(i=0; i<max; i++)                 /* clear the array  */
+   for(i=0; i<max; i++)                 /* declare and clear the array, avoids possible overflow  */
    {   
       for (j=0; j<max; j++) p[i][j] = 0;
    }
@@ -32,16 +32,16 @@ int main()
       }
    }
    
-   for (i=0; i<max ; i++)         /* write data gnuplot 3D format */
+   for (i=0; i<max ; i++)         /* write data to then plot in gnuplot, 3D format */
    {
       for (j=0; j<max; j++) 
       {
-			/* save data in laplace.dat */
-	myfile << p[i][j] << endl;
-	 
+			
+	myfile << p[i][j] << endl;	/*write data onto file*/ 
+	 				/*Data is stored as 40 2D (x,y) horizontal planes stacked from bottom to top */
       }
-      myfile << "\n" << endl;	  /* empty line for gnuplot */
+      myfile << "\n" << endl;	  /* empty line added to make the dataset readable on gnuplot*/
    }
-   cout << "Data stored in laplace.dat"<< endl;
+   cout << "Data stored in laplace.dat"<< endl;		/* save data in laplace.dat */
    myfile.close();
 }
