@@ -1,3 +1,5 @@
+/*This program generates TWO PARALLEL PLATES, EACH AT OPPOSITE POTENTIALS*/
+
 #include <cstdio>
 #include <iostream>
 #include <cstdlib>
