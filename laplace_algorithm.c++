@@ -40,7 +40,7 @@ int main()
 	myfile << p[i][j] << endl;	/*write data onto file*/ 
 	 				/*Data is stored as 40 2D (x,y) horizontal planes stacked from bottom to top */
       }
-      myfile << "\n" << endl;	  /* empty line added to make the dataset readable on gnuplot*/
+      myfile << "\n";	  /* empty line added to make the dataset readable on gnuplot*/
    }
    cout << "Data stored in laplace.dat"<< endl;		/* save data in laplace.dat */
    myfile.close();
