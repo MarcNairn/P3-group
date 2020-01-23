@@ -19,8 +19,8 @@ int main()
       for (j=0; j<max; j++) p[i][j] = 0;
    }
 
-   for(i=0; i<max; i++) p[i][0] = 100.0;        /* p[i][0] = 100 V */		
-
+   for(i=0; i<max; i++) p[i][0] = 100.0;	/* p[i][0] = 100 V */		
+   for(i=0; i<max; i++) p[i][max-1] = 100.0;
    for(iter=0; iter<1000; iter++)               /* iterations */
    {
       for(i=1; i<(max-1); i++)                  /* x-direction */
