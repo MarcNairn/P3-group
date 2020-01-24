@@ -6,7 +6,7 @@
 #include <fstream>
 
 #define max 40                         /* number of grid points */
-#define rad 15				/* define the radius of the cylinder between plates */
+#define rad 2				/* define the radius of the cylinder between plates, recall analytic solution is only valid in the low radius region */
 #define cent 20				/* define centre of circle */
 using namespace std;
 
