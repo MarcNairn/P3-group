@@ -37,7 +37,7 @@ int main()
 	  p[i][j] = 0.25*(p[i+1][j]+p[i-1][j]+p[i][j+1]+p[i][j-1]);
  if ((i-cent)*(i-cent)+(j-cent)*(j-cent)<= rad1*rad1) p[i][j] = 0.0;	/* set the inner cylinder to ground potential */
  if ((i-cent)*(i-cent)+(j-cent)*(j-cent)== rad2*rad2) p[i][j] = 100.0; /* Outer cylinders edge is set to a positive potential */
- if ((i-cent)*(i-cent)+(j-cent)*(j-cent)> rad2*rad2) p[i][j] = 0.0 /* Potential outside outer cylinder is set to zero*/ 	 
+ if ((i-cent)*(i-cent)+(j-cent)*(j-cent)> rad2*rad2) p[i][j] = 0.0; /* Potential outside outer cylinder is set to zero*/ 	 
 	 }
 	}
      }
