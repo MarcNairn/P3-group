@@ -1,3 +1,5 @@
+/* This program generates two coaxial cylinders, of different radii. The inner cylinder is grounded, while the surface of the outer one is at a positive potential. */
+
 #include <cstdio>
 #include <iostream>
 #include <cstdlib>
