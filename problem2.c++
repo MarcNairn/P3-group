@@ -7,7 +7,7 @@
 
 #define max 100                         /* number of grid points */
 #define rad 20				/* define the radius of the cylinder between plates, recall analytic solution is only valid in the low radius region */
-#define cent 20				/* define centre of circle */
+#define cent 50				/* define centre of circle */
 using namespace std;
 
 int main()
@@ -16,7 +16,7 @@ int main()
    int i, j, iter, y;
    
    ofstream myfile;
-   myfile.open ("laplace.dat");
+   myfile.open ("problem2.dat");
    for(i=0; i<max; i++)                 /* clear the array  */
    {   
       for (j=0; j<max; j++) p[i][j] = 0;
@@ -49,12 +49,12 @@ int main()
 	{
 	  /* if ((i-cent)*(i-cent)+(j-cent)*(j-cent)<= rad*rad){
 	 p[i][j]=0.0;
-	 }*/		/* save data in laplace.dat */
+	 }*/		/* save data in problem2.dat */
 	myfile << p[i][j] << endl;
 	 
       }
       myfile << "\n";	  /* empty line for gnuplot */
    }
-   cout << "Data stored in laplace.dat"<< endl;
+   cout << "Data stored in problem2.dat"<< endl;
    myfile.close();
 }
