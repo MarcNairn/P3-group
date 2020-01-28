@@ -5,10 +5,10 @@
 #include <cstdlib>
 #include <fstream>
 
-#define max 40                         /* number of grid points */
+#define max 100                         /* number of grid points */
 #define rad1 10			       /* define the radius of the inner coaxial cylinder */
 #define rad2 20				/*define the radius of the outer coaxial cylinder */ 				
-#define cent 20 		       	/* define the centre of the coaxial circles */
+#define cent 50 		       	/* define the centre of the coaxial circles */
 
 using namespace std;
 
