@@ -1,4 +1,6 @@
-//This program generates two coaxial cylinders, of different radii. The inner cylinder is grounded while the outer one is at a positive potential.
+//This program simulates a Gas Electron Multiplier. Two plates are set at opposite ends of the grid, one grounded the other at a positive potential.
+//Two pairs of plates are set in between these two, at a high potential difference between the two, closely separated.
+
 
 #include <cstdio>
 #include <iostream>
