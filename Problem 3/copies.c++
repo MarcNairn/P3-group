@@ -25,14 +25,14 @@
 //Common parameters for both plates
 #define t_x 15.0				/*length of plates*/
 #define dy 2.0				/*thickness of plates */
-#define x 30.0				/*distance between the plates */
+#define dx 30.0				/*distance between the plates */
 
 using namespace std;
 
 
 int main()
 {
-  double x, p[max][max];
+  double x, p[max_x][max_y];
   int i, j, iter, y;
   
   timespec ts;
@@ -40,26 +40,26 @@ int main()
 
   ofstream myfile;
   myfile.open("copies.dat");
-  for(i=0; i<max; i++)
+  for(i=0; i<max_x; i++)
     {
-      for (j=0; j<max; j++) p[i][j] = 0;	/* clear the array */
+      for (j=0; j<max_y; j++) p[i][j] = 0;	/* clear the array */
     }
 
-  for(i=0; i<(max); i++){
+  for(i=0; i<max_x; i++){
     p[i][0] = 0;        /* Set the ground plate */
   }
 
      
 
-  for(i=0; i<max; i++) p[i][max-1] = V_3; 	/* Set top plate potential*/
+  for(i=0; i<max_x; i++) p[i][max_y-1] = V_3; 	/* Set top plate potential*/
 
   for(iter=0; iter<1000; iter++)               /* iterations */
     {
-      for(i=1; i<(max-1); i++)                  /* x-direction */
+      for(i=1; i<(max_x-1); i++)                  /* x-direction */
 	{
-	  for(j=1; j<(max-1); j++){               /* y-direction */
+	  for(j=1; j<(max_y-1); j++){               /* y-direction */
 	    
-	    int a, b, c, d, e, f, g, h;		//Set conditions on grid edges to set up preiodic boundary conditions
+	    /*   int a, b, c, d, e, f, g, h;		//Set conditions on grid edges to set up preiodic boundary conditions
 	    if (i+1 == max) {
 		a = 0; }
 	    else {
@@ -90,16 +90,17 @@ int main()
 	    else {
 	      h = j-1;
 	    }
+	    */
 
-	    p[i][j] = 0.25*(p[a][b]+p[c][d]+p[e][f]+p[g][h]);
+	    p[i][j] = 0.25*(p[i+1][j]+p[i-1][j]+p[i][j+1]+p[i][j-1]);
 
-	    if((i>=(x/2) && i<=t_x+x/2) || (i>=max-t_x-x/2 && i<=max-1-x/2)){
+	    if((i>=(dx/2) && i<=t_x+dx/2) || (i>=max_x-t_x-dx/2 && i<=max_x-1-dx/2)){
 	      if(j>=t_0 && j<=(t_0+dy)){
 		p[i][j]=V_1;			/* Set second plate to V_1 voltage */
 
 	      }
 	    }
-	    if((i>=x/2 && i<=t_x+x/2) || (i>=max-t_x-x/2 && i<=max-1-x/2)){
+	    if((i>=dx/2 && i<=t_x+dx/2) || (i>=max_x-t_x-dx/2 && i<=max_x-1-dx/2)){
 	      if(j>=t_y && j<=(t_y+dy)){
 		p[i][j]=V_2;	
 		/* Set third plate to V_2 voltage*/
@@ -112,9 +113,9 @@ int main()
     }
   
 
- for (i=0; i<max*0.5 ; i++)         /* write data gnuplot 3D format */
+ for (i=0; i<max_x ; i++)         /* write data gnuplot 3D format */
    {
-      for (j=0; j<max; j++) 
+      for (j=0; j<max_x; j++) 
 	{	
 	/* save data in copies.dat */
 	  myfile << p[i][j] << endl;
