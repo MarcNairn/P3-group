@@ -4,6 +4,10 @@
 #include <iostream>
 #include <cstdlib>
 #include <fstream>
+#include <chrono>
+#include <ctime>		/*Include these headers for benchmarking using chrono library from c++11 */
+		       
+
 
 
 #define max_x 300                        /* number of x  grid points */
@@ -33,10 +37,13 @@ using namespace std;
 
 int main()
 {
+  
+  auto start = std::chrono::system_clock::now();       /*Set the marker to check the internal clock before the program executes */
+  
   double x, p[max_x][max_y];
   int i, j, iter, y;
   
-/*Set the marker to check the internal clock before the program executes */
+
 
   ofstream myfile;
   myfile.open("copies.dat");
@@ -95,9 +102,14 @@ int main()
    myfile.close();
   
 
+   auto end = std::chrono::system_clock::now();
 
+   std::chrono::duration<double> elapsed_seconds = end-start;
+   std::time_t end_time = std::chrono::system_clock::to_time_t(end);
 
-;	/*Check time elapsed since setting the first marker, that is, the time it takes to run the program */
+   std::cout << "finished computation at " << std::ctime(&end_time)
+	     << "elapsed time: " << elapsed_seconds.count() << "s\n";
 
-   cout << "The program takes " << "" << " seconds to run" << endl;
+	/*Check time elapsed since setting the first marker, that is, the time it takes to run the program */
+
   }
