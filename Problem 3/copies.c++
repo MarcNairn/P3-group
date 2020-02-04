@@ -94,13 +94,13 @@ int main()
 
 	    p[i][j] = 0.25*(p[i+1][j]+p[i-1][j]+p[i][j+1]+p[i][j-1]);
 
-	    if((i>=(dx/2) && i<=t_x+dx/2) || (i>=max_x-t_x-dx/2 && i<=max_x-1-dx/2)){
+	    if((i>=(dx/2) && i<=t_x+dx/2) || (i>=max_x-t_x-dx/2 && i<=max_x-1-dx/2) || (i>=max_x/2-t_x-dx/2 && i<=max_x-1-dx/2) ||(i>=max_x/2+dx/2 && i<=max_x+t_x+dx/2)) {
 	      if(j>=t_0 && j<=(t_0+dy)){
 		p[i][j]=V_1;			/* Set second plate to V_1 voltage */
 
 	      }
 	    }
-	    if((i>=dx/2 && i<=t_x+dx/2) || (i>=max_x-t_x-dx/2 && i<=max_x-1-dx/2)){
+	    if((i>=(dx/2) && i<=t_x+dx/2) || (i>=max_x-t_x-dx/2 && i<=max_x-1-dx/2) || (i>=max_x/2-t_x-dx/2 && i<=max_x-1-dx/2) ||(i>=max_x/2+dx/2 && i<=max_x+t_x+dx/2)){
 	      if(j>=t_y && j<=(t_y+dy)){
 		p[i][j]=V_2;	
 		/* Set third plate to V_2 voltage*/
@@ -113,9 +113,9 @@ int main()
     }
   
 
- for (i=0; i<max_x ; i++)         /* write data gnuplot 3D format */
+ for (i=0; i<max_x/2 ; i++)         /* write data gnuplot 3D format */
    {
-      for (j=0; j<max_x; j++) 
+      for (j=0; j<max_y; j++) 
 	{	
 	/* save data in copies.dat */
 	  myfile << p[i][j] << endl;
