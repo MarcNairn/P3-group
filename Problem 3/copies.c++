@@ -59,42 +59,10 @@ int main()
 	{
 	  for(j=1; j<(max_y-1); j++){               /* y-direction */
 	    
-	    /*   int a, b, c, d, e, f, g, h;		//Set conditions on grid edges to set up preiodic boundary conditions
-	    if (i+1 == max) {
-		a = 0; }
-	    else {
-	      a = i+ 1;
-	    }
-
-	    b = j;
-
-	    if (i-1 == -1) {
-		c = max; }
-	    else {
-	      c = i-1;
-	    }
-
-	    d = j ;
-	    e = i ;
-
-	    if (j+1 == max) {
-		f = 0; }
-	    else {
-	      f = j+ 1;
-	    }
-
-	    g = i;
-
-	    if (j-1 == -1) {
-		h = max; }
-	    else {
-	      h = j-1;
-	    }
-	    */
 
 	    p[i][j] = 0.25*(p[i+1][j]+p[i-1][j]+p[i][j+1]+p[i][j-1]);
 
-	    if((i>=(dx/2) && i<=t_x+dx/2) || (i>=max_x-t_x-dx/2 && i<=max_x-1-dx/2) || (i>=max_x/2-t_x-dx/2 && i<=max_x-1-dx/2) ||(i>=max_x/2+dx/2 && i<=max_x+t_x+dx/2)) {
+	    if((i>=(dx/2) && i<=t_x+dx/2) || (i>=max_x-t_x-dx/2 && i<=max_x-1-dx/2) || (i>=max_x/2-t_x-dx/2 && i<=max_x/2-1-dx/2) ||(i>=max_x/2+dx/2 && i<=max_x+t_x+dx/2)) {
 	      if(j>=t_0 && j<=(t_0+dy)){
 		p[i][j]=V_1;			/* Set second plate to V_1 voltage */
 
