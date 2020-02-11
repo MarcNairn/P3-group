@@ -7,14 +7,8 @@
 #include <chrono>
 #include <ctime>
 
-#define max 100                        /* number of grid points */
-
-//Voltages:
-
-#define V_1 -10.0 			/* Bottom plate voltage*/
-#define V_2 -200.0			/* Middle plate voltage*/
-#define V_3 -300.0			/* Top plate voltage */
-
+#define max_x 607                        /* number of grid points */
+#define max_y 540
 
 
 //Define parameter for bottom pair of finite thickness plates
@@ -30,16 +24,17 @@
 #define dx 15.0 			/*distance between the plates*/
 
 using namespace std;
+/*
+inline int finite(int x, int y,int size_x, int size_y, int (*q)[size_y]{
+  
 
 
-inline int finite(int x, int y, int size){
-  
-  
-  double p[size][size];
-  int a, b, c, d, e, f, g, h;		//Set conditions on grid edges to set up preiodic boundary conditions
+  int a, b, c, d, e, f, g, h;		//Set conditions on grid edges to set up periodic boundary conditions
 	    
-  if (x+1 == size) {
-    a = 0; }
+  if (x+1 == size_x) {
+    a = 0; 
+    cout << a <<"\n";
+  }
   else {
     a = x+ 1;
   }
@@ -47,7 +42,7 @@ inline int finite(int x, int y, int size){
   b = y;
 
   if (x-1 == -1) {
-    c = size; }
+    c = size_x; }
   else {
     c = x-1;
   }
@@ -55,7 +50,7 @@ inline int finite(int x, int y, int size){
   d = y ;
   e = x ;
 
-  if (y+1 == size) {
+  if (y+1 == size_y) {
     f = 0; }
   else {
     f = y+ 1;
@@ -64,39 +59,41 @@ inline int finite(int x, int y, int size){
   g = x;
 
   if (y-1 == -1) {
-    h = size; }
+    h = size_y; }
   else {
     h = y-1;
   }
   
-  p[x][y] = 0.25*(p[a][b]+p[c][d]+p[e][f]+p[g][h]);
+  p[x][y] = 0.25*(q[a][b]+q[c][d]+q[e][f]+q[g][h]);
   /*Perform finite difference method on grid*/
-  return 0;
+/* return 0;
 }
 
-
+*/
 
 int main()
 {
   auto start = std::chrono::system_clock::now();
 
-  double x, p[max][max], mask[max][max], bound[max][max];
+  double x, p[max_x][max_y], mask[max_x][max_y], bound[max_x][max_y];
   int i, j, iter, y;
   
    
   ofstream myfile;
   myfile.open("reader.dat");
-  for(i=0; i<max; i++)
+  for(i=0; i<max_x; i++)
     {
-      for (j=0; j<max; j++) p[i][j] = 0;	/* clear the array */
+      for (j=0; j<max_y; j++) p[i][j] = 0;	/* clear the array */
     }
 
   /*Read in boundary conditions from txt file given by Python */
 
-  ifstream fp("potentialarray.dat");
-  for (int i=0; i<max; i++){
-     for(int j=0; j<max; j++){
-       fp >> bound[i][j];					/*Reads in data file and stores each row of data columns into default array bound[i][j] which represents the boundary conditions on the system */
+  ifstream fp("potentialarrayC.txt");
+  for (int i=0; i<max_x; i++){
+     for(int j=0; j<max_y; j++){
+       fp >> bound[i][j];
+       /*Reads in data file and stores each row of data columns into default array bound[i][j] which represents the boundary conditions on the system */
+
         if ( ! fp ) {
 	  cout << "Error reading .txt file for element " << i <<","<< j<< endl;
 	  return 1;
@@ -104,41 +101,44 @@ int main()
      }
   }
 
+  ifstream fp2("maskarrayC.txt");		//read in masked array
+  for (int i=0; i<max_x; i++){			
+    for(int j=0; j<max_y; j++){
+      fp2 >> mask[i][j];
+      }
+  }
 
-
+ 
 
   for(iter=0; iter<1000; iter++)               /* iterations */
     {
-      for(i=1; i<(max-1); i++)                  /* x-direction */
+
+      for(i=1; i<(max_x-1); i++)                  /* x-direction */
 	{
-	  for(j=1; j<(max-1); j++){               /* y-direction */
-	    
-	    
-	    ifstream fp2("maskarray.dat");		//read in masked array
-	    for (int i=0; i<max; i++){			
-	      for(int j=0; j<max; j++){
-		fp2 >> mask[i][j];
-		if (mask[i][j]==1.0){
+
+	  for(j=1; j<(max_y-1); j++){               /* y-direction */
+
+	   
+		if (mask[i][j]==1){
+        
 		  p[i][j]=bound[i][j];			/*array consists of 0s and 1s. A 1 represents a point which are subject to the boundary conditions and don't change through the finite-difference method.*/
 		}
 		
 		else {
-		  p[i][j]=finite(i,j,max);
+	        	  
+		  p[i][j] = 0.25*(p[i+1][j]+p[i-1][j]+p[i][j+1]+p[i][j-1]);
+		  //perform finite difference method.
+		  //finite(i,j,max_x, max_y);
+		  
 		    }
-		
-
-
-	      }
-	    }
 	  }
 	}
     }
-
   
 
- for (i=0; i<max ; i++)         /* write data gnuplot 3D format */
+ for (i=0; i<max_x ; i++)         /* write data gnuplot 3D format */
    {
-      for (j=0; j<max; j++) 
+      for (j=0; j<max_y; j++) 
 	{	
 	/* save data in reader.dat */
 	  myfile << p[i][j] << endl;
