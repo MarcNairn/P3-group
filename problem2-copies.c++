@@ -26,8 +26,8 @@ int main()
       for (j=0; j<max_y; j++) p[i][j] = 0;
    }
 
-   for(i=0; i<max_x; i++) p[i][0] = 100.0;        /* p[i][0] = 100 V */		
-   for(i=0; i<max_x; i++) p[i][max_y-1] = -100.0;
+   for(i=0; i<max_y; i++) p[i][0] = 100.0;        /* p[i][0] = 100 V */		
+   for(i=0; i<max_y; i++) p[i][max_y-1] = -100.0;
    
 
 
