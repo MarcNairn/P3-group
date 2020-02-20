@@ -9,20 +9,22 @@ using namespace std;
 
 int fdm(int iters, int max, double rad, double voltage)
 {
-   double x, p[max][max];
-   int i, j, iter, y;
    
-   double cent = max/2; 
+   int i, j, iter, y;
+   int max_y = 500;
+   double cent_x = max/2;			/* define coordinates of centre of circle */
+   double cent_y = max_y/2;
+   double x, p[max][max_y];
    
    ofstream myfile;
    myfile.open ("laplace.dat");
    for(i=0; i<max; i++)                 /* clear the array  */
    {   
-      for (j=0; j<max; j++) p[i][j] = 0;
+      for (j=0; j<max_y; j++) p[i][j] = 0;
    }
 
-   for(i=0; i<max; i++) p[i][0] = voltage;        /* p[i][0] = 100 V */		
-   for(i=0; i<max; i++) p[i][max-1] = -1*voltage;
+   for(i=0; i<max_y-1; i++) p[0][i] = voltage;        /* p[i][0] = 100 V */		
+   for(i=0; i<max_y; i++) p[max-1][i] = -1*voltage;
       
 
 
@@ -30,29 +32,30 @@ int fdm(int iters, int max, double rad, double voltage)
    {
       for(i=1; i<(max-1); i++)                  /* x-direction */
       {
-         for(j=1; j<(max-1); j++)               /* y-direction */
+         for(j=1; j<(max_y-1); j++)               /* y-direction */
          {
-	    if ((i-cent)*(i-cent)+(j-cent)*(j-cent)<= rad*rad){
+	    if ((i-cent_x)*(i-cent_x)+(j-cent_y)*(j-cent_y)<= rad*rad){
 	      p[i][j]=0.0;
 	    }
 	    else {
-            p[i][j] = 0.25*(p[i+1][j]+p[i-1][j]+p[i][j+1]+p[i][j-1]);
+
+	      p[i][j] = 0.25*(p[i+1][j]+p[i-1][j]+p[i][j+1]+p[i][j-1]);
+	    
+	
 	    }
          }
       }
    }
   
-   for (i=0; i<max ; i++)         /* write data gnuplot 3D format */
+   for (j=(cent_y-max/2); j<(cent_y+max/2); j++)          /* write data gnuplot 3D format */
    {
-      for (j=0; j<max; j++) 
+      for (i=0; i<max ; i++)
 	{
-	  /* if ((i-cent)*(i-cent)+(j-cent)*(j-cent)<= rad*rad){
-	 p[i][j]=0.0;
-	 }*/		/* save data in laplace.dat */
-	myfile << p[i][j] << endl;
+	  		
+	myfile << p[i][j] << endl; /* save data in laplace.dat */
 	 
       }
-      // myfile << "\n";	  /* empty line for gnuplot */
+      myfile << "\n";	  /* empty line for gnuplot */
    }
    cout << "Data stored in laplace.dat"<< endl;
    myfile.close();
@@ -77,6 +80,6 @@ int main()
   cin >> method;
   
   if (method=="FDM") {
-    fdm(iters, max, rad, voltage);
-  }
+    fdm(iters, max, rad, voltage);*/
+ }
 }
