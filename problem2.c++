@@ -40,7 +40,7 @@ int main()
 
 	    int a, b, c, d, e, f, g, h;		//Set conditions on grid edges to set up preiodic boundary conditions
 
-	    if (i+1 == size) {
+	    if (i+1 == max) {
 		a = 0; }
 	    else {
 	      a = i+ 1;
@@ -49,7 +49,7 @@ int main()
 	    b = j;
 
 	    if (i-1 == -1) {
-		c = size; }
+		c = max; }
 	    else {
 	      c = i-1;
 	    }
@@ -57,7 +57,7 @@ int main()
 	    d = j ;
 	    e = i ;
 
-	    if (j+1 == size) {
+	    if (j+1 == max) {
 		f = 0; }
 	    else {
 	      f = j+ 1;
@@ -66,12 +66,12 @@ int main()
 	    g = i;
 
 	    if (j-1 == -1) {
-		h = size; }
+		h = max; }
 	    else {
 	      h = j-1;
 	    }
 
-	    p[x][y] = 0.25*(p[a][b]+p[c][d]+p[e][f]+p[g][h]);
+	    p[i][j] = 0.25*(p[a][b]+p[c][d]+p[e][f]+p[g][h]);
 	    
 	    return 0;
 	  }
