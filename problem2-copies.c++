@@ -46,7 +46,7 @@ int main()
   
    for (i=0; i<max_x ; i++)         /* write data gnuplot 3D format */
    {
-      for (j=max_x; j<2*max_x; j++) 
+      for (j=4.5*max_x; j<5.5*max_x; j++) 
 	{	
 	/* save data in problem2-copies.dat */
 	myfile << p[i][j] << endl;
