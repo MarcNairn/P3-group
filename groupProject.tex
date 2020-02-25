@@ -1,0 +1,75 @@
+\documentclass{article}
+
+
+\usepackage[margin=0.75in]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\renewcommand{\vec}[1]{\mathbf{#1}}
+\usepackage{multicol}
+\let\oldhat\hat
+\renewcommand{\hat}[1]{\oldhat{\mathbf{#1}}}
+\setlength{\columnsep}{1cm}
+\usepackage{times}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{subcaption}
+\usepackage{listings}
+\setlength{\parindent}{0pt}
+
+
+
+\begin{document}
+
+
+\title{An Assessment of Numerical Methods in Electrostatics}
+\author{S. Gallacher, A. Gosnay, A. Hameed, M. Nairn}
+\maketitle
+
+
+\begin{abstract}
+
+
+
+\end{abstract}
+
+
+\begin{multicols*}{2}
+
+\section*{Introduction}
+
+
+
+
+\section*{Maxwell's Equations in Electrostatics}
+
+In electrostatics for free space, Maxwell's equations concerning the electric field, $\vec{E}$, take the form,
+
+$$
+\nabla \cdot \vec{E} = 0 \quad \quad \nabla \times \vec{E} = 0.
+$$
+
+Since the curl of $\vec{E}$ vanishes, the field may be written in terms of some potential, $V$, with,
+
+\begin{equation}
+\vec{E} = - \nabla V.
+\label{eFieldPotential}
+\end{equation}
+
+$V$ is known as the electrostatic potential. Futhermore, taking the divergence of Eqn.~\ref{eFieldPotential} and using the above Maxwell relation, $V$ may be written as,
+
+\begin{equation} 
+\nabla^2 V = 0,
+\label{laplace}
+\end{equation}
+
+\noindent which is Laplace's equation. Hence, solving Eqn.~\ref{laplace} with specified boundary conditions for a given system will allow $V$ to be determined which will in turn allow $\vec{E}$ for the system to be determined by Eqn~\ref{eFieldPotential}.
+
+\section*{Finite Difference Methods}
+
+
+
+
+\end{multicols*}
+
+
+\end{document}
