@@ -43,7 +43,7 @@ int main(int argc, char** argv) {
 	
 	//IMPORT OF MASK
 	
-	ifstream maskFile("maskarrayEx1.txt");
+	ifstream maskFile("maskarray.txt");
 	for (int i=0; i<y_values; i++){ 
 	  for (int j=0; j<x_values; j++){
 	    maskFile >> mask[j][i]; //Stores data in potential array
