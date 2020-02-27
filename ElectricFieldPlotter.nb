@@ -1,0 +1,164 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 12.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[      5747,        156]
+NotebookOptionsPosition[      5459,        143]
+NotebookOutlinePosition[      5793,        158]
+CellTagsIndexPosition[      5750,        155]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"ClearAll", "[", "\"\<Global`*\>\"", "]"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"data", " ", "=", " ", 
+   RowBox[{"Import", "[", 
+    RowBox[{"\"\<electricField.dat\>\"", ",", "\"\<Table\>\""}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"coords", " ", "=", " ", 
+   RowBox[{"data", "[", 
+    RowBox[{"[", 
+     RowBox[{"All", ",", 
+      RowBox[{"{", 
+       RowBox[{"1", ",", "2"}], "}"}]}], "]"}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"comps", " ", "=", " ", 
+   RowBox[{"data", "[", 
+    RowBox[{"[", 
+     RowBox[{"All", ",", 
+      RowBox[{"{", 
+       RowBox[{"3", ",", "4"}], "}"}]}], "]"}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Efieldx", " ", "=", " ", 
+   RowBox[{"data", "[", 
+    RowBox[{"[", 
+     RowBox[{"All", ",", 
+      RowBox[{"{", "3", "}"}]}], "]"}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"Efieldy", " ", "=", " ", 
+    RowBox[{"data", "[", 
+     RowBox[{"[", 
+      RowBox[{"All", ",", 
+       RowBox[{"{", "4", "}"}]}], "]"}], "]"}]}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"newData", " ", "=", " ", 
+    RowBox[{"Thread", "[", 
+     RowBox[{"{", 
+      RowBox[{"coords", ",", "comps"}], "}"}], "]"}]}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"total", " ", "=", " ", 
+    RowBox[{
+     RowBox[{"Dimensions", "[", "newData", "]"}], "[", 
+     RowBox[{"[", "1", "]"}], "]"}]}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"sampling", " ", "=", " ", 
+    FractionBox["total", "15000"]}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"plottingData", " ", "=", " ", 
+    RowBox[{"Take", "[", 
+     RowBox[{"newData", ",", 
+      RowBox[{"{", 
+       RowBox[{"1", ",", "total", ",", "sampling"}], "}"}]}], "]"}]}], ";"}], 
+  "\[IndentingNewLine]", "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"eField", " ", "=", " ", 
+   RowBox[{"ListVectorPlot", "[", 
+    RowBox[{"plottingData", ",", "\[IndentingNewLine]", 
+     RowBox[{"VectorScale", "\[Rule]", 
+      RowBox[{"{", 
+       RowBox[{"Automatic", ",", "Automatic", ",", "None"}], "}"}]}], ",", 
+     "\[IndentingNewLine]", 
+     RowBox[{"VectorPoints", "\[Rule]", "25"}], ",", "\[IndentingNewLine]", 
+     RowBox[{"VectorColorFunctionScaling", "\[Rule]", "True"}], ",", 
+     "\[IndentingNewLine]", 
+     RowBox[{"VectorColorFunction", "\[Rule]", "\"\<Rainbow\>\""}], ",", 
+     "\[IndentingNewLine]", 
+     RowBox[{"PlotLegends", "\[Rule]", 
+      RowBox[{"BarLegend", "[", 
+       RowBox[{"{", "\"\<Rainbow\>\"", "}"}], "]"}]}], ",", " ", 
+     "\[IndentingNewLine]", 
+     RowBox[{"Background", "\[Rule]", "Black"}], ",", " ", 
+     "\[IndentingNewLine]", 
+     RowBox[{"PerformanceGoal", "\[Rule]", "\"\<Quality\>\""}], ",", 
+     "\[IndentingNewLine]", 
+     RowBox[{"AspectRatio", "\[Rule]", "1"}]}], "\[IndentingNewLine]", 
+    "]"}]}], "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{"eField", " ", "=", " ", 
+  RowBox[{"ListStreamPlot", "[", 
+   RowBox[{"plottingData", ",", "\[IndentingNewLine]", 
+    RowBox[{"StreamScale", "\[Rule]", 
+     RowBox[{"{", 
+      RowBox[{"Automatic", ",", "Automatic", ",", "None"}], "}"}]}], ",", 
+    "\[IndentingNewLine]", 
+    RowBox[{"StreamColorFunctionScaling", "\[Rule]", "True"}], ",", 
+    "\[IndentingNewLine]", 
+    RowBox[{"StreamColorFunction", "\[Rule]", "\"\<Rainbow\>\""}], ",", 
+    "\[IndentingNewLine]", 
+    RowBox[{"PlotLegends", "\[Rule]", 
+     RowBox[{"BarLegend", "[", 
+      RowBox[{"{", "\"\<Rainbow\>\"", "}"}], "]"}]}], ",", " ", 
+    "\[IndentingNewLine]", 
+    RowBox[{"Background", "\[Rule]", "Black"}], ",", " ", 
+    "\[IndentingNewLine]", 
+    RowBox[{"PerformanceGoal", "\[Rule]", "\"\<Quality\>\""}], ",", 
+    "\[IndentingNewLine]", 
+    RowBox[{"AspectRatio", "\[Rule]", "1"}]}], "\[IndentingNewLine]", 
+   "]"}]}]}], "Input",
+ CellChangeTimes->{{3.7916357396358833`*^9, 3.791635805976097*^9}, {
+  3.791635837219265*^9, 3.791635875716639*^9}, {3.7916359768208227`*^9, 
+  3.791636050035565*^9}, {3.791791324962796*^9, 3.791791349483786*^9}, {
+  3.7917914203821*^9, 3.791791422159832*^9}, {3.791791489638589*^9, 
+  3.7917914912469063`*^9}, {3.7917915414066467`*^9, 3.791791623516285*^9}, {
+  3.791802832778633*^9, 3.791802833576442*^9}, {3.791804346667536*^9, 
+  3.791804346922221*^9}, {3.791804379115573*^9, 3.791804381066122*^9}, {
+  3.7918076443349533`*^9, 3.791807646333199*^9}, {3.7918077022864513`*^9, 
+  3.791807722669314*^9}, {3.791807754335677*^9, 3.791807764093935*^9}, {
+  3.7918078867026777`*^9, 3.791807939007072*^9}, {3.791808151166452*^9, 
+  3.791808329406283*^9}},ExpressionUUID->"de0b35c9-d92d-42be-8eb6-\
+d70a4a7aee2b"]
+},
+WindowSize->{1920, 1025},
+WindowMargins->{{0, Automatic}, {0, Automatic}},
+FrontEndVersion->"12.0 for Linux x86 (64-bit) (April 8, 2019)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[558, 20, 4897, 121, 879, "Input",ExpressionUUID->"de0b35c9-d92d-42be-8eb6-d70a4a7aee2b"]
+}
+]
+*)
+
