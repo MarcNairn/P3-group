@@ -1,111 +1,114 @@
-/*This program generates, TWO PARALLEL PLATES at opposite potentials, with an added GROUNDED CYLINDER between the two*/
-
-#include <cstdio>
-#include <iostream>
-#include <cstdlib>
+#include<iostream>
+#include <stdlib.h> // used for exit function
+#include <math.h>
+#include <ctime> // for random number
 #include <fstream>
-
+#define PI 3.141592654
 using namespace std;
 
-int fdm(int iters, int max, double rad, double voltage, string gif)
-{
-   
-   int i, j, iter, y;
-   int max_y = 500;
-   double cent_x = max/2;			/* define coordinates of centre of circle */
-   double cent_y = max_y/2;
-   double x, p[max][max_y];
-   
-   ofstream myfile;
-   myfile.open ("laplace.dat");
-   for(i=0; i<max; i++)                 /* clear the array  */
-   {   
-      for (j=0; j<max_y; j++) p[i][j] = 0;
-   }
+// analytical function which creates matrix of analytical solutions
+int analytical_pot(double v, double rad_1, int distance) {
 
-   for(i=0; i<max_y-1; i++) p[0][i] = voltage;        /* p[i][0] = 100 V */		
-   for(i=0; i<max_y; i++) p[max-1][i] = -1*voltage;
-      
+// declare variables
+  double x[distance], y[distance], analytical_p[distance][distance], analytical_e[distance][distance], angle;
 
+// open external data files
+  ofstream myfile;
+  myfile.open("plates_anal.dat");
 
-   for(iter=0; iter<iters; iter++)               /* iterations */
-   {
-      for(i=1; i<(max-1); i++)                  /* x-direction */
-      {
-         for(j=1; j<(max_y-1); j++)               /* y-direction */
-         {
-	    if ((i-cent_x)*(i-cent_x)+(j-cent_y)*(j-cent_y)<= rad*rad){
-	      p[i][j]=0.0;
-	    }
-	    else {
-
-	      p[i][j] = 0.25*(p[i+1][j]+p[i-1][j]+p[i][j+1]+p[i][j-1]);
-	    
-	
-	    }
-         }
-      }
-   }
+  ofstream myfile2;
+  myfile2.open("plates_ef.dat");
+ 
+// initialise x and y values 
+  for (int i=0;i<distance;i++) {
+    x[i] = i-(distance/2.0);
+    y[i] = i-(distance/2.0);
+  }
   
-   for (j=(cent_y-max/2); j<(cent_y+max/2); j++)          /* write data gnuplot 3D format */
-   {
-      for (i=0; i<max ; i++)
-	{
-	  		
-	myfile << p[i][j] << endl; /* save data in laplace.dat */
-	 
+// loop for each cell in grid 
+  for (int j=0; j<distance; j++) {
+    for (int i=0; i<distance;i++) {
+      // find electric field at point
+ 
+      
+      if ((x[i] < 0) && (y[j] < 0)) {
+	angle = PI + atan((y[j])/(x[i]));
       }
-      myfile << "\n";	  /* empty line for gnuplot */
-   }
-   if (gif != "yes") {
-    cout << "Data stored in laplace.dat"<< endl;
-   }
-   myfile.close();
+      if ((x[i] > 0) && (y[j] < 0)) {
+	angle = 2*PI - atan((y[j])/(x[i]));
+      }
+      if ((x[i] > 0) && (y[j] > 0)) {
+	angle = atan((y[j])/(x[i]));
+      }
+      if ((x[i] < 0) && (y[j] > 0)) {
+	angle = PI - atan((y[j])/(x[i]));
+      }
+      if ((x[i] == 0) && (y[j] < 0)) {
+	angle = (3*PI/2.0);
+      }
+      if ((x[i] == 0) && (y[j] > 0)) {
+	angle = PI/2.0;
+      }
+      if ((x[i] > 0) && (y[j] == 0)) {
+	angle = 0;
+      }
+      if ((x[i] < 0) && (y[j] == 0)) {
+	angle = PI;
+      }
+      if ((x[i] == 0) && (y[j] == 0)) {
+	analytical_p[i][j] = 0;
+      }
+     
+      cout << angle << endl;
+      
+      analytical_e[i][j] = (2*v/distance)*(cos(angle)*(((-1*rad_1*rad_1)/(x[i]*x[i]+y[j]*y[j]))-1) - (sin(angle)*(((rad_1*rad_1)/(x[i]*x[i]+y[j]*y[j]))-1)));
+										  
+
+      // if cell is located inside cylinder, potential = 0
+      if (((x[i]*x[i]+y[j]*y[j]) < rad_1*rad_1)) {
+	analytical_p[i][j] = 0;
+      }
+      
+      // if cell is located outside cylinder, potential is given by analytical formula
+      if (((x[i]*x[i] + y[j]*y[j]) > rad_1*rad_1)) {
+	analytical_p[i][j] = (2 * v)/distance * cos(angle) * ((rad_1*rad_1)/(sqrt(x[i]*x[i]+y[j]*y[j])) - sqrt(x[i]*x[i]+y[j]*y[j]));
+	
+      }
+      
+      // write to data file
+      myfile << analytical_p[i][j] << endl;
+      myfile2 << analytical_e[i][j] << endl;
+										  
+    }  
+    myfile << "\n";
+    myfile2 << "\n";
+  }
+
+cout << "Potential data stored in plates_anal.dat" << endl;
+cout << "Electric field data stored in plates_ef.dat" << endl;
+
+myfile.close();
+myfile2.close();
+
+return 0;
 }
 
-int main()
-{
-  int iters, max;
-  double rad, voltage;
-  string method, gif;
-  
+
+
+// main function 
+int main() {
+
+  double v, rad_1, rad_2, distance;
   // get user input for voltage and radius
-  cout << "Voltage of plates (oppositely charged)?" << endl;
-  cin >> voltage;
-  cout << "Radius of cylinder?" << endl;
-  cin >> rad;
+  cout << "Voltage of plates (both plates are oppositely charged)?" << endl;
+  cin >> v;
+    cout << "Radius of ground cylinder?" << endl;
+  cin >> rad_1;
   cout << "Distance between plates?" << endl;
-  cin >> max;
-  cout << "Iterations?" << endl;
-  cin >> iters; 
-  cout << "Method?" << endl;
-  cin >> method;
-  cout << "Gif? (if yes, will take significantly longer to run!)" << endl;
-  cin >> gif;
-  
-  if (method=="FDM" || method=="fdm") {
-    fdm(iters, max, rad, voltage, gif);
- }
- // create gif for each iteration depending on given step size
-  if (gif =="yes") {
-    int max_iters, step;
-    cout << "Max iterations?" << endl;
-    cin >> max_iters;
-    cout << "Step size between each iteration?" << endl;
-    cin >> step;
-    
-    for (int i=0; i<=(max_iters/step); i++) {
-      string str;
-      ofstream myfile;
-      myfile.open("/home/2317101h/year_3/group_project/numerical_sol/section2.1/plates/anim/" + std::to_string(i*step) +".dat");
-      fdm(i*step, max, rad, voltage, gif);
-      ifstream infile;
-      infile.open("laplace.dat");
-      while (std::getline(infile, str)) {
-	myfile << str << endl;
-      }
-      cout << "Data stored in " << i*step << ".dat" << endl;
-      
-    }
-  }
+  cin >> distance;
+
+  // call analytical function 
+  analytical_pot(v, rad_1, distance);
+  return 0;
+
 }
