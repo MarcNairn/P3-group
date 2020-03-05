@@ -66,15 +66,18 @@ int fdm(int iters, int max, double rad, double voltage, string gif)
 
 int jacobi(int iters, int max, double rad, double voltage, string gif)
 {
-  double x, oldV[max][max], currentV[max][max],diffMatrix[max][max],V0[max][max], avgdiff, updateMatrix[max][max];
-  int i, j, iter, y, sum_of_elems=0;
+    double x, oldV[max][max], currentV[max][max],diffMatrix[max][max],V0[max][max], avgdiff, updateMatrix[max][max];
+    int i, j, iter, y, sum_of_elems=0;
+    int max_y = 500;
+    double cent = max/2.0;			/* define coordinates of centre of circle */
+    double cent_y = max_y/2.0;
    
-
+   
    ofstream myfile;
    myfile.open ("Jacobi2.dat");
    for(i=0; i<max; i++)                 /* clear the array  */
    {   
-     for (j=0; j<max; j++) {
+     for (j=0; j<max_y; j++) {
        oldV[i][j]=0;
        currentV[i][j]=0;
        V0[i][j]=0;
@@ -84,48 +87,17 @@ int jacobi(int iters, int max, double rad, double voltage, string gif)
    for(i=0; i<max; i++){
      V0[i][0] = voltage;
      oldV[i][0]=voltage;
-     currentV[i][0];
+     currentV[i][0] = voltage;
    } 		
      for(i=0; i<max; i++){
        V0[i][max-1] = -1*voltage;
        oldV[i][max-1]=-1*voltage;
-       currentV[i][max-1]=-voltage;
+       currentV[i][max-1]=-1*voltage;
      }
    for(i=1; i<max-1; i++){
      
-     for(j=1; j<max-1; j++){
+     for(j=1; j<max_y-1; j++){
 
-    int a, b, c, d, e, f, g, h;		//Set conditions on grid edges to set up preiodic boundary conditions
-	    if (i+1 == max) {
-		a = 0; }
-	    else {
-	      a = i+ 1;
-	    }
-
-	    b = j;
-
-	    if (i-1 == -1) {
-		c = max; }
-	    else {
-	      c = i-1;
-	    }
-
-	    d = j ;
-	    e = i ;
-
-	    if (j+1 == max) {
-		f = 0; }
-	    else {
-	      f = j+ 1;
-	    }
-
-	    g = i;
-
-	    if (j-1 == -1) {
-		h = max; }
-	    else {
-	      h = j-1;
-	    } 
   	oldV[i][j]=0.25*(V0[i-1][j]+V0[i+1][j]+V0[i][j-1]+V0[i][j+1]);
      }
    }
@@ -135,47 +107,17 @@ int jacobi(int iters, int max, double rad, double voltage, string gif)
    {
       for(i=1; i<(max-1); i++)                  /* x-direction */
       {
-         for(j=1; j<(max-1); j++)               /* y-direction */
+         for(j=1; j<(max_y-1); j++)               /* y-direction */
          {
-	   
-	   int a, b, c, d, e, f, g, h;		//Set conditions on grid edges to set up preiodic boundary conditions
-	    if (i+1 == max) {
-		a = 0; }
-	    else {
-	      a = i+ 1;
-	    }
-
-	    b = j;
-
-	    if (i-1 == -1) {
-		c = max; }
-	    else {
-	      c = i-1;
-	    }
-
-	    d = j ;
-	    e = i ;
-
-	    if (j+1 == max) {
-		f = 0; }
-	    else {
-	      f = j+ 1;
-	    }
-
-	    g = i;
-
-	    if (j-1 == -1) {
-		h = max; }
-	    else {
-	      h = j-1;
-	    } 
 	   	    
-	   currentV[i][j]=0.25*(oldV[a][b]+oldV[c][d]+oldV[e][f]+oldV[g][h]);
+	   currentV[i][j]=0.25*(oldV[i-1][j]+oldV[i+1][j]+oldV[i][j+1]+oldV[i][j-1]);
 
-	   if ((i-cent)*(i-cent)+(j-cent)*(j-cent)<= rad*rad){
+	   if ((i-cent)*(i-cent)+(j-cent_y)*(j-cent_y)<= rad*rad){
 	      currentV[i][j]=0.0;
 	    }
-	   oldV[i][j]=currentV[i][j];
+	   
+	     oldV[i][j]=currentV[i][j];
+	   
          }
       }
       //At the end of every iteration, set the oldV equal to the newly obtained currentV, and repeat process until convergence
@@ -193,7 +135,7 @@ int jacobi(int iters, int max, double rad, double voltage, string gif)
   
    for (i=0; i<max ; i++)         /* write data gnuplot 3D format */
    {
-      for (j=0; j<max; j++) 
+      for (j=(cent_y-max_y/2.0); j<(max_y/2.0+cent_y); j++) 
 	{
 
 	 		/* save data in Jacobi2.dat */
@@ -272,7 +214,7 @@ if (method=="Jacobi" || method=="jacobi") {
 	string str;
 	ofstream myfile;
 	myfile.open("/home/2317101h/year_3/group_project/numerical_sol/section2.1/plates/anim/jacobi/text/" + std::to_string(i*step) +".dat");
-	jacobi(i*step, max, rad1, rad3, voltage, gif);
+	jacobi(i*step, max, rad, voltage, gif);
 	ifstream infile;
 	infile.open("Jacobi2.dat");
 	while (std::getline(infile, str)) {
@@ -284,4 +226,3 @@ if (method=="Jacobi" || method=="jacobi") {
     }
     
   }
-}
