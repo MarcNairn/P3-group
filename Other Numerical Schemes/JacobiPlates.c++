@@ -43,7 +43,39 @@ int main()
    for(i=1; i<max-1; i++){
      
      for(j=1; j<max-1; j++){
-       oldV[i][j]=0.25*(V0[i-1][j]+V0[i+1][j]+V0[i][j-1]+V0[i][j+1]);
+	        
+	   int a, b, c, d, e, f, g, h;		//Set conditions on grid edges to set up preiodic boundary conditions
+	    if (i+1 == max) {
+		a = 0; }
+	    else {
+	      a = i+ 1;
+	    }
+
+	    b = j;
+
+	    if (i-1 == -1) {
+		c = max; }
+	    else {
+	      c = i-1;
+	    }
+
+	    d = j ;
+	    e = i ;
+
+	    if (j+1 == max) {
+		f = 0; }
+	    else {
+	      f = j+ 1;
+	    }
+
+	    g = i;
+
+	    if (j-1 == -1) {
+		h = max; }
+	    else {
+	      h = j-1;
+	    } 
+       oldV[i][j]=0.25*(V0[a][b]+V0[c][d]+V0[e][f]+V0[g][h]);
      }
    }
    
@@ -54,8 +86,39 @@ int main()
       {
          for(j=1; j<(max-1); j++)               /* y-direction */
          {
-	    
-	   currentV[i][j]=0.25*(oldV[i-1][j]+oldV[i+1][j]+oldV[i][j-1]+oldV[i][j+1]);
+	       
+	   int a, b, c, d, e, f, g, h;		//Set conditions on grid edges to set up preiodic boundary conditions
+	    if (i+1 == max) {
+		a = 0; }
+	    else {
+	      a = i+ 1;
+	    }
+
+	    b = j;
+
+	    if (i-1 == -1) {
+		c = max; }
+	    else {
+	      c = i-1;
+	    }
+
+	    d = j ;
+	    e = i ;
+
+	    if (j+1 == max) {
+		f = 0; }
+	    else {
+	      f = j+ 1;
+	    }
+
+	    g = i;
+
+	    if (j-1 == -1) {
+		h = max; }
+	    else {
+	      h = j-1;
+	    } 
+	   currentV[i][j]=0.25*(oldV[a][b]+oldV[c][d]+oldV[e][f]+oldV[g][h]);
 
 	   if ((i-cent)*(i-cent)+(j-cent)*(j-cent)<= rad*rad){
 	      currentV[i][j]=0.0;
