@@ -1,14 +1,14 @@
 \documentclass{article}
 
 
-\usepackage[margin=0.75in]{geometry}
+%\usepackage[margin=0.75in]{geometry}
 \usepackage{amsmath}
 \usepackage{amssymb}
 \renewcommand{\vec}[1]{\mathbf{#1}}
 \usepackage{multicol}
 \let\oldhat\hat
-\renewcommand{\hat}[1]{\oldhat{\mathbf{#1}}}
-\setlength{\columnsep}{1cm}
+\newcommand{\basis}[1]{\oldhat{\mathbf{#1}}}
+%\setlength{\columnsep}{1cm}
 \usepackage{times}
 \usepackage{graphicx}
 \usepackage{tikz}
@@ -20,11 +20,14 @@
 
 \begin{document}
 
-
 \title{An Assessment of Numerical Methods in Electrostatics}
 \author{S. Gallacher, A. Gosnay, A. Hameed, M. Nairn}
 \maketitle
 
+
+\tableofcontents
+
+\newpage
 
 \begin{abstract}
 
@@ -33,43 +36,146 @@
 \end{abstract}
 
 
-\begin{multicols*}{2}
-
-\section*{Introduction}
 
 
+\section{Introduction}
+
+DISCUSS NUMERICAL METHODS USES IN GENERAL AND HOW THEY BECOME USEFUL IN ELECTROSTATICS
 
 
-\section*{Maxwell's Equations in Electrostatics}
+\section{Maxwell's Equations in Electrostatics}
 
 In electrostatics for free space, Maxwell's equations concerning the electric field, $\vec{E}$, take the form,
 
 $$
-\nabla \cdot \vec{E} = 0 \quad \quad \nabla \times \vec{E} = 0.
+\nabla \cdot \vec{E} = 0 \quad \quad \nabla \times \vec{E} = \vec{0}.
 $$
 
 Since the curl of $\vec{E}$ vanishes, the field may be written in terms of some potential, $V$, with,
 
 \begin{equation}
-\vec{E} = - \nabla V.
+\vec{E} = - \nabla V = -\frac{\partial V}{\partial x} \basis{e}_x - \frac{\partial V}{\partial y} \basis{e}_y \quad \text{(2D)}.
 \label{eFieldPotential}
 \end{equation}
 
 $V$ is known as the electrostatic potential. Futhermore, taking the divergence of Eqn.~\ref{eFieldPotential} and using the above Maxwell relation, $V$ may be written as,
 
 \begin{equation} 
-\nabla^2 V = 0,
+\nabla^2 V = \frac{\partial^2 V}{\partial x^2} + \frac{\partial^2 V}{\partial y^2} = 0 \quad \text{(2D)},
 \label{laplace}
 \end{equation}
 
-\noindent which is Laplace's equation. Hence, solving Eqn.~\ref{laplace} with specified boundary conditions for a given system will allow $V$ to be determined which will in turn allow $\vec{E}$ for the system to be determined by Eqn~\ref{eFieldPotential}.
+\noindent which is Laplace's equation. Hence, solving Eqn.~\ref{laplace} with specified boundary conditions for a given system will allow $V$ to be determined which will in turn allow $\vec{E}$ for the system to be determined.
 
-\section*{Finite Difference Methods}
+\section{Finite Difference Methods}
+
+A finite difference method is a approximation that allows derivatives of a function to be computed numerically. The analytical derivative of a function $f$ is defined as the limit,
+
+$$
+f'(x) = \lim_{h \to 0} \frac{f(x+h)-f(x)}{h}.
+$$
+
+A finite difference method approximates the derivative by assuming the difference $h$ is not infinitesimal but is a small finite value giving,
+
+$$
+f'(x) \approx \frac{f(x+h)-f(x)}{h},
+$$
+
+with the approximation becoming better the smaller the value of $h$.
+
+\subsection{Solving Laplace's Equation}
+
+
+
+\subsection{Obtaining the Electric Field from the Electrostatic Potential}
+
+With a known electrostatic potential, the electric field can be obtained numerically from Eqn.~\ref{eFieldPotential} but requires a method of computing partial derivatives of $V$. This can be done, again, by employing finite difference methods.
+
+
+
+\section{Implementation}
+
+\subsection{Setting Initial Conditions}
 
 
 
 
-\end{multicols*}
+\subsection{Finding the Electrostatic Potential - Gauss-Seidel}
+
+
+\subsection{Finding the Electrostatic Potential - Jacobian}
+
+
+
+\subsection{Finding the Electric Field}
+
+
+
+\subsection{Output}
+
+
+
+\section{Co-Axial Cylinders}
+
+DISCUSS THE GEOMETRY
+
+INCLUDE SCOTTS INITIAL CONDITIONS IMAGE
+
+
+
+\subsection{Analytical Solutions}
+
+
+\subsection{Numerical Solutions}
+
+
+
+\subsection{Evaluation}
+
+
+
+
+\section{Perturbed Parallel Plates}
+
+DISCUSS THE GEOMETRY
+
+INCLUDE SCOTTS INITIAL CONDITIONS IMAGE
+
+
+
+\subsection{Analytical Solutions}
+
+
+\subsection{Numerical Solutions}
+
+
+
+\subsection{Evaluation}
+
+
+
+\section{Gas Electron Multiplier}
+
+DISCUSS THE GEOMETRY AND APPLICATIONS OF ELECTRON MULTIPLIER
+
+INCLUDE SCOTTS INITIAL CONDITIONS IMAGE
+
+
+
+
+\subsection{Numerical Solutions}
+
+
+
+\subsection{Evaluation}
+
+
+
+\section{Conclusions and Discussion}
+
+
+
+
 
 
 \end{document}
